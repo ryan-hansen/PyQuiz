@@ -9,12 +9,20 @@ QUIZ_TYPES = (
     (2, 'Opinion'),
 )
 
+
 class Quiz(models.Model):
+    class Meta:
+        verbose_name = 'Quiz'
+        verbose_name_plural = 'Quizzes'
+
     title = models.CharField(max_length=250)
     instruction = models.TextField()
     quiz_type = models.IntegerField(choices=QUIZ_TYPES, default=1)
     created = models.DateTimeField(default=timezone.now)
     modified = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.title
 
 
 class Question(models.Model):
@@ -24,6 +32,9 @@ class Question(models.Model):
     feedback = models.TextField(null=True)
     created = models.DateTimeField(default=timezone.now)
     modified = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.question
 
 
 class UserAnswer(models.Model):
