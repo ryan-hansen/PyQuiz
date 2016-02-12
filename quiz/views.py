@@ -5,7 +5,7 @@ from quiz.models import Quiz
 
 
 def index(request):
-    return render(request, 'index.html')
+    return redirect('list')
 
 
 @login_required()
