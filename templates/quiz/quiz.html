@@ -6,8 +6,21 @@
 
 {% block body %}
 
-<h2>{{ q.title }}</h2>
+<h3>{{ q.title }}</h3>
 
 {{ q.instruction }}
 
+<div class="quiz">
+    <span class="button" id="take_quiz">Take the Quiz</span>
+</div>
+
+{% with q.questions.all|first as question %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#take_quiz').click(function () {
+            modal.open({content: "<h3>{{ question.question }}</h3>"});
+        });
+    })
+{% endwith %}
+</script>
 {% endblock %}

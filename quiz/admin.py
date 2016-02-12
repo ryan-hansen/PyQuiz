@@ -24,7 +24,7 @@ class QuestionInline(admin.TabularInline):
 class QuizAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('title', 'instruction')
+            'fields': ('title', 'quiz_type', 'instruction')
         }),
         ('Timestamps', {
             'classes': ('collapse',),

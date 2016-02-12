@@ -5,10 +5,19 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static "css/main.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/modal.css" %}"/>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="{% static "js/modal.js" %}"></script>
+
+{#<div id="overlay"></div>#}
+{#<div id="modal">#}
+{#    <div id="modal_content">We need a lot more content in here to see if this is going to work</div>#}
+{#    <a href='#' id='close'>close</a>#}
+{#</div>#}
 
 <div class="top">
-    <div class="container"><img src="{% static "img/pyquiz_logo.png" %}"/></div>
-    <div class="heading container"><h2>{% block heading %}{% endblock %}</h2></div>
+    <div class="top_cell"><img src="{% static "img/pyquiz_logo.png" %}"/></div>
+    <div class="heading top_cell"><h1>{% block heading %}{% endblock %}</h1></div>
     <div style="clear: left;"></div>
 </div>
 <div class="content">
@@ -31,6 +40,7 @@
     <div style="clear: left;"></div>
 </div>
 <div class="bottom"></div>
+
 
 </head>
 <body>

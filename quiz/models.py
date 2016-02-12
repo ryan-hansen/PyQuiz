@@ -26,7 +26,7 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
-    quiz = models.ForeignKey(Quiz, null=True)
+    quiz = models.ForeignKey(Quiz, null=True, related_name='questions')
     question = models.CharField(max_length=250, null=True)
     answer = models.BooleanField()
     feedback = models.TextField(null=True)

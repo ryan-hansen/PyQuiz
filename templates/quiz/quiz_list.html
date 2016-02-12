@@ -11,12 +11,12 @@
         <td class="quiz_head">Created</td>
         <td class="quiz_head">Take the Quiz</td>
     </tr>
-    <tr>
     {% for q in quizzes %}
+    <tr>
         <td>{{ q.title }}</td>
         <td>{{ q.created }}</td>
         <td><a href="/quiz/take/{{ q.id }}/">Take Quiz</a></td>
-    {% endfor %}
     </tr>
+    {% endfor %}
 </table>
 {% endblock %}
