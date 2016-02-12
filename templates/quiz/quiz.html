@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz :: {{ q.title }}{% endblock %}
+
+{% block heading %}Instruction{% endblock %}
+
+{% block body %}
+
+<h2>{{ q.title }}</h2>
+
+{{ q.instruction }}
+
+{% endblock %}

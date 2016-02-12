@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}PyQuiz :: Quiz List{% endblock %}
+
+{% block heading %}Available Quizzes{% endblock %}
+
+{% block body %}
+<table class="quiz_list">
+    <tr>
+        <td class="quiz_head">Title</td>
+        <td class="quiz_head">Created</td>
+        <td class="quiz_head">Take the Quiz</td>
+    </tr>
+    <tr>
+    {% for q in quizzes %}
+        <td>{{ q.title }}</td>
+        <td>{{ q.created }}</td>
+        <td><a href="/quiz/take/{{ q.id }}/">Take Quiz</a></td>
+    {% endfor %}
+    </tr>
+</table>
+{% endblock %}

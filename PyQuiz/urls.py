@@ -16,9 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from quiz.views import index
+from django.contrib.auth import views as auth_views
+from quiz.views import logout_view
 
 urlpatterns = [
     url(r'^quizmaster/', admin.site.urls),  # For security reasons, we never use "admin" as a URL
     url(r'^$', index),
     url(r'^quiz/', include('quiz.urls')),
+    url(r'^accounts/login/$', auth_views.login),
+    url(r'^logout/$', logout_view),
 ]

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block heading %}Please Log In{% endblock %}
+
+{% block body %}
+<form method="post" action="/accounts/login/">
+    {% csrf_token %}
+    <div class="login">
+        <div style="display: table-row;">
+            <div class="login_cell">Username:</div>
+            <div class="login_cell"><input type="text" name="username"/></div>
+        </div>
+        <div class="login_cell">Password:</div>
+        <div class="login_cell"><input type="password" name="password"/></div>
+        <div style="display: table-row;">
+            <div class="login_cell">&nbsp;</div>
+            <div class="login_cell"><input type="submit" value="Login"/></div>
+        </div>
+    </div>
+</form>
+{% endblock %}
