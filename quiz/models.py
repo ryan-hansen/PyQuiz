@@ -21,6 +21,15 @@ class Quiz(models.Model):
     created = models.DateTimeField(default=timezone.now)
     modified = models.DateTimeField(default=timezone.now)
 
+    def get_next_question(self, user):
+        """
+        Get the next unanswered question for this quiz
+        :return: Question object
+        """
+        questions = Question.objects.filter(quiz=self)
+        answered = Question.objects.filter(answers__user=user)
+        return list(set(questions) - set(answered))[0]
+
     def __str__(self):
         return self.title
 
@@ -39,7 +48,14 @@ class Question(models.Model):
 
 class UserAnswer(models.Model):
     user = models.ForeignKey(User, null=True)
-    question = models.ForeignKey(Question, null=True)
+    question = models.ForeignKey(Question, null=True, related_name='answers')
     answer = models.BooleanField()
     created = models.DateTimeField(default=timezone.now)
     modified = models.DateTimeField(default=timezone.now)
+
+    @property
+    def is_correct(self):
+        return self.answer == self.question.answer
+
+    def __str__(self):
+        return '{0}: {1}'.format(self.question, self.answer)

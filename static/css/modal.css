@@ -35,3 +35,15 @@
     top: -7px;
     right: -7px;
 }
+
+.vote {
+    width: 210px;
+    margin: 0px auto;
+}
+.vote_cell {
+    float: left;
+}
+
+.vote img:hover {
+    cursor: pointer;
+}

@@ -14,13 +14,26 @@
     <span class="button" id="take_quiz">Take the Quiz</span>
 </div>
 
-{% with q.questions.all|first as question %}
 <script type="text/javascript">
     $(document).ready(function(){
         $('#take_quiz').click(function () {
-            modal.open({content: "<h3>{{ question.question }}</h3>"});
+            var question = "{{ next_question }}";
+            $.get('/quiz/{{ q.id }}/next/', function(data){
+                r = JSON.parse(data);
+                question = r.question
+            });
+            html = "<h3>" + question + "</h3>";
+            html += "<div class=\"vote\"><div class=\"vote_cell\" id=\"thumbs_up\">";
+            html += "<img height=\"100\" width=\"90\" src=\"/static/img/thumbs_up.png\">";
+            html += "</div><div id=\"thumbs_dn\" class=\"vote_cell\">";
+            html += "<img height=\"100\" width=\"90\" src=\"/static/img/thumbs_dn.png\">";
+            html += "</div><div style=\"clear: left;\"></div>";
+            modal.open({content: html});
+        });
+
+        $("#test1").click(function() {
+           alert('Clicked');
         });
     })
-{% endwith %}
 </script>
 {% endblock %}

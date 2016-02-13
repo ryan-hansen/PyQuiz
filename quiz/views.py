@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+import json
+
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from quiz.models import Quiz
@@ -18,9 +20,18 @@ def quiz_list(request):
 def take_quiz(request, quiz_id):
     q = Quiz.objects.get(id=quiz_id)
 
-    context = dict(q=q)
+    context = dict(q=q, next_question=q.get_next_question(request.user))
 
     return render(request, 'quiz/quiz.html', context=context)
+
+
+def next_question(request, quiz_id):
+    q = Quiz.objects.get(id=quiz_id).get_next_question(request.user)
+    question = dict(question=q.question)
+
+    response = json.dumps(question)
+    return HttpResponse(response)
+
 
 
 def logout_view(request):
