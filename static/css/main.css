@@ -49,19 +49,6 @@ body {
 .heading {
 }
 
-.quiz_list {
-    display: table;
-    width: 60%;
-}
-
-.quiz_list .quiz_head {
-    font-weight: bold;
-}
-
-.quiz_list td {
-    padding: 2px;
-}
-
 .left_side {
     width: 20%;
     min-width: 330px;
@@ -92,10 +79,29 @@ body {
     width: 40%;
 }
 
+.next {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .quiz {
     font-size: 16pt;
     margin-top: 100px;
     text-align: center;
+}
+
+.quiz_list {
+    display: table;
+    width: 60%;
+}
+
+.quiz_list .quiz_head {
+    font-weight: bold;
+}
+
+.quiz_list td {
+    padding: 2px;
 }
 
 .right_side {

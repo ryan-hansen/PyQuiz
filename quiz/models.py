@@ -53,6 +53,9 @@ class UserAnswer(models.Model):
     created = models.DateTimeField(default=timezone.now)
     modified = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        unique_together = ('user', 'question')
+
     @property
     def is_correct(self):
         return self.answer == self.question.answer

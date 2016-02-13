@@ -1,39 +1,82 @@
 {% extends "base.html" %}
 
-{% block title %}Quiz :: {{ q.title }}{% endblock %}
+{% block title %}Quiz :: {{ quiz.title }}{% endblock %}
 
 {% block heading %}Instruction{% endblock %}
 
 {% block body %}
 
-<h3>{{ q.title }}</h3>
+<h3>{{ quiz.title }}</h3>
 
-{{ q.instruction }}
+{{ quiz.instruction }}
 
 <div class="quiz">
     <span class="button" id="take_quiz">Take the Quiz</span>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#take_quiz').click(function () {
-            var question = "{{ next_question }}";
-            $.get('/quiz/{{ q.id }}/next/', function(data){
-                r = JSON.parse(data);
-                question = r.question
-            });
-            html = "<h3>" + question + "</h3>";
-            html += "<div class=\"vote\"><div class=\"vote_cell\" id=\"thumbs_up\">";
-            html += "<img height=\"100\" width=\"90\" src=\"/static/img/thumbs_up.png\">";
-            html += "</div><div id=\"thumbs_dn\" class=\"vote_cell\">";
-            html += "<img height=\"100\" width=\"90\" src=\"/static/img/thumbs_dn.png\">";
-            html += "</div><div style=\"clear: left;\"></div>";
+    var question_answered = false;
+    var question_id = {{ question.id }};
+    var quiz_id = {{ quiz.id }};
+
+    function get_next_question() {
+        question_answered = false;
+        var question = null;
+        var r = null;
+        var html = null;
+        $.get('/quiz/{{ quiz.id }}/next/', function(data){
+            r = JSON.parse(data);
+            question = r.question;
+            question_id = r.id;
+
+            html = "<h3 id=\"question\">" + question + "</h3>";
+            html += "<div class=\"vote\">";
+            html += "<img id=\"thumbs_up\" height=\"100\" width=\"90\" src=\"/static/img/thumbs_up.png\">";
+            html += "<img id=\"thumbs_dn\" height=\"100\" width=\"90\" src=\"/static/img/thumbs_dn.png\">";
+            html += "</div><div style=\"clear: left;\">&nbsp;</div>";
+            html += "<div id=\"feedback\"></div>";
+            html += "<div id=\"next_btn\" class=\"next button\">NEXT</div>";
             modal.open({content: html});
         });
+    }
 
-        $("#test1").click(function() {
-           alert('Clicked');
+    $(document).ready(function(){
+
+        $('#take_quiz').click(function () {
+            get_next_question();
         });
-    })
+
+        $('#modal').on('click', 'img', function(e) {
+            var answer = e.target.id.substr(e.target.id.indexOf('_') + 1, 2);
+            if (question_answered) {
+                return false;
+            }
+
+            data = {
+                'quiz_id': quiz_id,
+                'question_id': question_id,
+                'answer': answer
+            };
+            $.post('/quiz/answer/', data, function(data) {
+                r = JSON.parse(data);
+                question_answered = true;
+                if (r.result == true && answer == 'up') {
+                    $("#thumbs_up").attr('src', '/static/img/thumbs_up_green.png');
+                } else if (r.result == false && answer == 'up') {
+                    $("#thumbs_dn").attr('src', '/static/img/thumbs_dn_red.png');
+                } else if (r.result == true && answer == 'dn') {
+                    $("#thumbs_dn").attr('src', '/static/img/thumbs_dn_green.png');
+                } else if (r.result == false && answer == 'dn') {
+                    $("#thumbs_up").attr('src', '/static/img/thumbs_up_red.png');
+                }
+                $('#feedback').html(r.feedback);
+                $('#next_btn').show(500);
+            });
+        });
+
+        $('#modal').on('click', '#next_btn', function(){
+            get_next_question();
+        });
+    });
 </script>
 {% endblock %}
