@@ -1,0 +1,35 @@
+PyQuiz Roadmap
+
+  - Better UI
+    As was noted in one of the commits, this UI is pretty much straight out of 1994, with the exception of the modal,
+    which incorporates a few more moderns UI techniques.  Still, it's just some straight HTML and JQuery, no full CSS/JS
+    frameworks or libraries or anything more robust and cutting edge.  (In fairness, I never claimed to be any kind of
+    UI/X designer.)
+
+  - Better UX for instructional content
+    The current UI displays all the instructional content in a single div with no real controls for managing large,
+    multi-page style instructions.  As it is now, the main content container will stretch indefinitely to accommodate
+    however much instructional text is included in the quiz.
+
+    Ideally the instructional content will be paginated in some form, either controlled by admin (not ideal) or by
+    dynamic determination based on the amount of data.  Pagination will be JS controlled non-refresh SPA style, e.g.
+    left and right "swipe" navigation.
+
+    Also ideally, the instructional content input would include a WYSIWYG widget for richer content creation.
+
+  - Quiz Status in Quiz List
+    On the Quiz List page, it currently shows all available quizzes with a "Take Quiz" link next to each.  This will be
+    modified to show a "Continue" link next to each quiz that is currently in progress for any users that have answered
+    at least one question in the quiz.  Optionally, a percent complete can be included as well.  Both of these minor
+    enhancements will require a few additional methods or properties added to the models to determine current status.
+
+  - Multimedia Quiz Prompts
+    Currently, quizzes are limited to text-based questions only.  This enhancement would allow the use of images, video,
+    audio clips, etc. as "prompts" for the user (i.e. the question is implied by the quiz itself and the media, but not
+    actually written).  Think original "Hot or Not" type app -- the question is implied by the app and driven by the
+    presentation of photos rather than text-based questions.
+
+  - Access Controls
+    Currently there are no access controls at all other than being able to access the quiz list or not.  Once a user is
+    authenticated, they have full access to all quizzes.  This enhancement would allow the admin/quizmaster to control
+    what users have access to which quizzes.
