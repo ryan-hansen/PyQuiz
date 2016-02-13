@@ -27,10 +27,22 @@ def take_quiz(request, quiz_id):
 
 
 def next_question(request, quiz_id):
-    q = Quiz.objects.get(id=quiz_id).get_next_question(request.user)
-    question = dict(question=q.question, id=q.id)
+    q = Quiz.objects.get(id=quiz_id)
+    next_q = q.get_next_question(request.user)
 
-    response = json.dumps(question)
+    if next_q:
+        result = {
+            'finished': False,
+            'question': next_q.question,
+            'id': next_q.id,
+        }
+    else:
+        result = {
+            'finished': True,
+            'correct': len(q.get_results(request.user)),
+            'total': q.questions.all().count()
+        }
+    response = json.dumps(result)
     return HttpResponse(response)
 
 

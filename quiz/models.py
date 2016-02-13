@@ -26,12 +26,23 @@ class Quiz(models.Model):
         Get the next unanswered question for this quiz
         :return: Question object
         """
-        questions = Question.objects.filter(quiz=self)
+        questions = self.questions.all()
         answered = Question.objects.filter(answers__user=user)
-        return list(set(questions) - set(answered))[0]
+        try:
+            return list(set(questions) - set(answered))[0]
+        except IndexError:
+            return None
 
     def __str__(self):
         return self.title
+
+    def get_results(self, user):
+        correct = []
+        for q in self.questions.all():
+            if q.answers.get(user=user).is_correct:
+                correct.append(q)
+
+        return correct
 
 
 class Question(models.Model):

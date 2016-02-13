@@ -45,6 +45,12 @@
     right: -7px;
 }
 
+.results {
+    font-size: 80pt;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
 .vote {
     width: 210px;
     margin: 0px auto;

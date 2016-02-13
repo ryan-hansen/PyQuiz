@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
     var question_answered = false;
-    var question_id = {{ question.id }};
+    var question_id = null;
     var quiz_id = {{ quiz.id }};
 
     function get_next_question() {
@@ -24,18 +24,26 @@
         var question = null;
         var r = null;
         var html = null;
+        var percentage = 0;
         $.get('/quiz/{{ quiz.id }}/next/', function(data){
             r = JSON.parse(data);
-            question = r.question;
-            question_id = r.id;
+            if (r.finished) {
+                percentage = Math.round(r.correct / r.total * 100);
+                html = "<h2>Quiz Complete</h2>";
+                html += "<div class=\"results\">" + percentage + "%</div>";
+                html += "<div>You got " + r.correct + " of " + r.total + " questions correct</div>";
+            } else {
+                question = r.question;
+                question_id = r.id;
 
-            html = "<h3 id=\"question\">" + question + "</h3>";
-            html += "<div class=\"vote\">";
-            html += "<img id=\"thumbs_up\" height=\"100\" width=\"90\" src=\"/static/img/thumbs_up.png\">";
-            html += "<img id=\"thumbs_dn\" height=\"100\" width=\"90\" src=\"/static/img/thumbs_dn.png\">";
-            html += "</div><div style=\"clear: left;\">&nbsp;</div>";
-            html += "<div id=\"feedback\"></div>";
-            html += "<div id=\"next_btn\" class=\"next button\">NEXT</div>";
+                html = "<h3 id=\"question\">" + question + "</h3>";
+                html += "<div class=\"vote\">";
+                html += "<img id=\"thumbs_up\" height=\"100\" width=\"90\" src=\"/static/img/thumbs_up.png\">";
+                html += "<img id=\"thumbs_dn\" height=\"100\" width=\"90\" src=\"/static/img/thumbs_dn.png\">";
+                html += "</div><div style=\"clear: left;\">&nbsp;</div>";
+                html += "<div id=\"feedback\"></div>";
+                html += "<div id=\"next_btn\" class=\"next button\">NEXT</div>";
+            }
             modal.open({content: html});
         });
     }
