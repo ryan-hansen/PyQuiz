@@ -39,8 +39,11 @@ class Quiz(models.Model):
     def get_results(self, user):
         correct = []
         for q in self.questions.all():
-            if q.answers.get(user=user).is_correct:
-                correct.append(q)
+            try:
+                if q.answers.get(user=user).is_correct:
+                    correct.append(q)
+            except UserAnswer.DoesNotExist:
+                pass
 
         return correct
 

@@ -25,7 +25,7 @@
         var r = null;
         var html = null;
         var percentage = 0;
-        $.get('/quiz/{{ quiz.id }}/next/', function(data){
+        $.get('/quiz/' + quiz_id + '/next/', function(data){
             r = JSON.parse(data);
             if (r.finished) {
                 percentage = Math.round(r.correct / r.total * 100);
