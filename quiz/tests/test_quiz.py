@@ -44,24 +44,44 @@ class TestQuiz:
         self.user.delete()
         self.quiz.delete()
 
-    def test_quiz_has_results(self):
+    def test_has_results(self):
+        """
+        Test whether or not a quiz has been started, i.e. any of the questions have been answered.
+        """
         a = UserAnswer(user=self.user, question=self.question, answer=True)
         a.save()
         results = self.quiz.get_results(self.user)
         assert len(results) > 0
 
-    def test_quiz_next_question(self):
+    def test_next_question(self):
+        """
+        Test that the next unanswered question of a given quiz is returned successfully.
+        TODO: Currently only tests that a question object is returned. Should ideally test that it is indeed the next
+        question in the quiz.
+        """
         q = self.quiz.get_next_question(self.user)
         assert isinstance(q, Question)
 
-        self._answer_all()
+        self._answer_questions()
         q = self.quiz.get_next_question(self.user)
         assert q is None
 
-    def test_quiz_is_complete(self):
-        self._answer_all()
+    def test_is_complete(self):
+        """
+        Test proper determination of a completed quiz (no more unanswered questions)
+        """
+        self._answer_questions()
         assert self.quiz.get_next_question(self.user) is None
 
-    def _answer_all(self):
-        for q in self.quiz.questions.all():
+    def _answer_questions(self, qnum=None):
+        """
+        Helper function to answer <qnum> questions of a quiz.
+        :param qnum: (int) The number of questions to answer.  None = answer all questions.
+        """
+        all_questions = self.quiz.questions.all()
+
+        if qnum:
+            all_questions = all_questions[:qnum]
+
+        for q in all_questions:
             UserAnswer(user=self.user, question=q, answer=True).save()

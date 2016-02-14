@@ -1,8 +1,8 @@
 import json
 
-from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from quiz.models import Quiz, Question, UserAnswer
 
@@ -13,12 +13,18 @@ def index(request):
 
 @login_required()
 def quiz_list(request):
+    """
+    Get all available quizzes.
+    """
     quizzes = Quiz.objects.all()
     return render(request, 'quiz/quiz_list.html', context=dict(quizzes=quizzes))
 
 
 @login_required()
 def take_quiz(request, quiz_id):
+    """
+    Load the selected quiz.
+    """
     quiz = Quiz.objects.get(id=quiz_id)
 
     context = dict(quiz=quiz, question=quiz.get_next_question(request.user))
@@ -27,6 +33,9 @@ def take_quiz(request, quiz_id):
 
 
 def next_question(request, quiz_id):
+    """
+    Get the next unanswered question for the selected quiz.
+    """
     q = Quiz.objects.get(id=quiz_id)
     next_q = q.get_next_question(request.user)
 
@@ -48,6 +57,9 @@ def next_question(request, quiz_id):
 
 @csrf_exempt  # temporarily exempt for development purposes
 def user_answer(request):
+    """
+    POST: Set the user's answer for the current question.
+    """
     question = None
     try:
         question = Question.objects.get(id=request.POST.get('question_id'))

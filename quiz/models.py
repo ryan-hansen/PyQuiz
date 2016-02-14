@@ -23,7 +23,8 @@ class Quiz(models.Model):
 
     def get_next_question(self, user):
         """
-        Get the next unanswered question for this quiz
+        Get the next unanswered question for a given user
+        :param user: (object) The user taking the quiz
         :return: Question object
         """
         questions = self.questions.all()
@@ -37,6 +38,11 @@ class Quiz(models.Model):
         return self.title
 
     def get_results(self, user):
+        """
+        Get the quiz results for the given user.
+        :param user: (object) The user taking the quiz
+        :return: (list) The questions answered correctly.  Incorrect questions are implied, so not returned.
+        """
         correct = []
         for q in self.questions.all():
             try:
