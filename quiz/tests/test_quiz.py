@@ -1,5 +1,11 @@
+"""
+This test suite was created to be run with pytest; however, there are some Django dependencies that make it unlikely
+that these tests will run successfully as-is outside of the develop environment I run them in.  In other words, I can
+run them from inside PyCharm (my IDE), which has built-in facility for running pytest tests and which sets up the
+necessary Django environment, but I can't currently run them with py.test from the command line.
+"""
+
 import django
-import requests
 
 django.setup()
 
