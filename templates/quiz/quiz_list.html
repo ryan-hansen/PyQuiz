@@ -10,12 +10,25 @@
         <td class="quiz_head">Title</td>
         <td class="quiz_head">Created</td>
         <td class="quiz_head">Take the Quiz</td>
+        <td class="quiz_head">Results</td>
     </tr>
     {% for q in quizzes %}
     <tr>
         <td>{{ q.title }}</td>
         <td>{{ q.created }}</td>
-        <td><a href="/quiz/take/{{ q.id }}/">Take Quiz</a></td>
+        <td><a href="/quiz/take/{{ q.id }}/">
+        {% if q.percent_complete > 0 %}
+            {{ q.percent_complete }}% complete
+        {% else %}
+            Take Quiz
+        {% endif %}
+        </a></td>
+        <td>
+        {% if q.results > 0 %}{{ q.results }}%
+            {% else %}
+            --
+        {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>

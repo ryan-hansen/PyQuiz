@@ -93,15 +93,16 @@ body {
 
 .quiz_list {
     display: table;
-    width: 60%;
+    width: 100%;
 }
 
 .quiz_list .quiz_head {
+    background: #f8e680;
     font-weight: bold;
 }
 
 .quiz_list td {
-    padding: 2px;
+    padding: 4px;
 }
 
 .right_side {

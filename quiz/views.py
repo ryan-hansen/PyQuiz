@@ -16,8 +16,21 @@ def quiz_list(request):
     """
     Get all available quizzes.
     """
+    q_list = list()
     quizzes = Quiz.objects.all()
-    return render(request, 'quiz/quiz_list.html', context=dict(quizzes=quizzes))
+    for q in quizzes:
+        correct = q.get_results(request.user)
+        total = float(q.questions.all().count())
+        results = int(round(float(len(correct)) / total * 100))
+        q_dict = {
+            'id': q.id,
+            'title': q.title,
+            'created': q.created,
+            'percent_complete': int(q.percent_complete(request.user)),
+            'results': results,
+        }
+        q_list.append(q_dict)
+    return render(request, 'quiz/quiz_list.html', context=dict(quizzes=q_list))
 
 
 @login_required()

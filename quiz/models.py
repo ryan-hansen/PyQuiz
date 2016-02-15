@@ -53,6 +53,12 @@ class Quiz(models.Model):
 
         return correct
 
+    def percent_complete(self, user):
+        num_questions = Question.objects.filter(quiz=self).count()
+        num_answered = UserAnswer.objects.filter(question__quiz=self, user=user).count()
+
+        return float(num_answered) / float(num_questions) * 100
+
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, null=True, related_name='questions')

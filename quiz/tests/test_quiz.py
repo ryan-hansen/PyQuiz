@@ -6,6 +6,7 @@ necessary Django environment, but I can't currently run them with py.test from t
 """
 
 import django
+import random
 
 django.setup()
 
@@ -18,7 +19,6 @@ class TestQuiz:
     def setup_method(self, test_method):
         username = 'testuser'
         quiz_title = u'PyTest Quiz'
-        question_title = u'PyTest Quiz Question 1'
 
         try:
             u = User.objects.get(username=username)
@@ -33,18 +33,12 @@ class TestQuiz:
             q = Quiz(title=quiz_title, instruction='PyTest creating a quiz', quiz_type=1)
             q.save()
 
-        try:
-            qu = Question.objects.get(question=question_title)
-        except Question.DoesNotExist:
-            qu = Question(quiz=q, question=question_title, answer=True, feedback='Well done')
-            qu.save()
-
         self.user = u
         self.quiz = q
-        self.question = qu
-        self.question_title = question_title
         self.quiz_title = quiz_title
         self.username = username
+
+        self._create_questions()
 
     def teardown_method(self, test_method):
         self.user.delete()
@@ -54,8 +48,7 @@ class TestQuiz:
         """
         Test whether or not a quiz has been started, i.e. any of the questions have been answered.
         """
-        a = UserAnswer(user=self.user, question=self.question, answer=True)
-        a.save()
+        self._answer_questions()
         results = self.quiz.get_results(self.user)
         assert len(results) > 0
 
@@ -72,12 +65,27 @@ class TestQuiz:
         q = self.quiz.get_next_question(self.user)
         assert q is None
 
-    def test_is_complete(self):
+    def test_percent_complete(self):
         """
         Test proper determination of a completed quiz (no more unanswered questions)
         """
-        self._answer_questions()
-        assert self.quiz.get_next_question(self.user) is None
+        num_answer = random.randint(1, 5)
+        self._answer_questions(num_answer)
+
+        assert self.quiz.percent_complete(self.user) == float(num_answer) / float(5) * 100
+
+    def _create_questions(self, qnum=5):
+        """
+        Create <qnum> questions for a quiz.
+        :param qnum: (int) The number of questions to create
+        :return: None
+        """
+
+        for q in xrange(1, qnum + 1):
+            question = 'Question {0}'.format(q)
+            feedback = 'Feedback {0}'.format(q)
+            answer = q % 2 == 0
+            Question(quiz=self.quiz, question=question, answer=answer, feedback=feedback).save()
 
     def _answer_questions(self, qnum=None):
         """

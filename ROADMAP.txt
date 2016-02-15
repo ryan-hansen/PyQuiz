@@ -17,12 +17,6 @@ PyQuiz Roadmap
 
     Also ideally, the instructional content input would include a WYSIWYG widget for richer content creation.
 
-  - Quiz Status in Quiz List
-    On the Quiz List page, it currently shows all available quizzes with a "Take Quiz" link next to each.  This will be
-    modified to show a "Continue" link next to each quiz that is currently in progress for any users that have answered
-    at least one question in the quiz.  Optionally, a percent complete can be included as well.  Both of these minor
-    enhancements will require a few additional methods or properties added to the models to determine current status.
-
   - Multimedia Quiz Prompts
     Currently, quizzes are limited to text-based questions only.  This enhancement would allow the use of images, video,
     audio clips, etc. as "prompts" for the user (i.e. the question is implied by the quiz itself and the media, but not
