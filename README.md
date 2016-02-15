@@ -5,6 +5,18 @@ A simple quiz creation and management tool.
 The purpose of this application is to allow the "quizmaster" to create custom quizzes on any subject, provided that the 
 quiz questions allow only yes or no answers.
 
+GETTING STARTED
+The application should run without a problem right out of the box, assuming you have the proper environment set up.  It
+assumes you have a virtual environment and all the necessary requirements installed.  Once the environment is configured
+just launch the Django dev server and access it on localhost.  There is no database included with the code, but since it 
+uses SQLite as the DB backend, Django will create a new fresh DB the first time the app is run.  You will need to create 
+an admin user, however, before you will be able to access the site.  There is no registration system, so just create the 
+admin user using Django's built-in manage tool:
+
+  $ python manage.py createsuperuser
+
+Once logged in, you can follow the link provided to create a quiz.
+
 QUESTIONS
 
 When creating a new quiz, the quizmaster uses the admin interface to enter the questions for the quiz.  Optionally, the 
@@ -35,5 +47,8 @@ FEEDBACK
 Another optional quiz feature is "feedback" which can be added to each question by the quizmaster.  If provided, this 
 feedback can be presented to the quizzee after a question is answered, e.g. to display some kind of useful message or 
 additional instruction in the case of an incorrect question.
+
+ROADMAP
+See the included ROADMAP.txt for details about plans and ideas for future enhancements.
 
 
