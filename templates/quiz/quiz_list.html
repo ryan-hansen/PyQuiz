@@ -24,8 +24,9 @@
         {% endif %}
         </a></td>
         <td>
-        {% if q.results > 0 %}{{ q.results }}%
-            {% else %}
+        {% if q.percent_complete == 100 %}
+            {{ q.results }}%
+        {% else %}
             --
         {% endif %}
         </td>
